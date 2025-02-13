@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post App</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <div class="min-h-screen w-full bg-neutral-900 flex items-center justify-center">
+
+        <% if (RedMessage && RedMessage.trim().length > 0) { %>
+            <div id="flash-message" class="fixed bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-red-500 border-2 border-white rounded-lg flex items-center px-5">
+                <h1 class="text-white text-md font-bold"><%= RedMessage %></h1>
+            </div>
+        <% } %>
+
+        <% if (GreenMessage && GreenMessage.trim().length > 0) { %>
+            <div id="flash-message" class="fixed bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-emerald-500 border-2 border-white rounded-lg flex items-center px-5">
+                <h1 class="text-white text-md font-bold"><%= GreenMessage %></h1>
+            </div>
+        <% } %>
+
+        <div class="text-white">
+            <h1 class="text-5xl tracking-tight">Welcome to My App</h1>
+            <h3 class="text-center mb-10 text-zinc-300">Please Register or Login to continue</h3>
+            <div class="flex w-full items-center justify-center gap-10">
+                <a class="text-xl px-4 py-2 bg-blue-500" href="/register">Register</a>
+                <a class="text-xl px-6 py-2 bg-emerald-500" href="/login">Login</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="/javascripts/flashMessage.js"></script>
+</body>
+</html>

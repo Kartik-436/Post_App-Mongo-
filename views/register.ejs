@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registering User</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <div class="min-h-screen w-full bg-neutral-900 flex items-center justify-center">
+        <div class="absolute top-5 flex w-full items-center justify-between py-5 px-20">
+            <a href="/" class="px-4 py-2 bg-red-500 text-white">Back to Home</a>
+            <a href="/login" class="px-4 py-2 bg-blue-500 text-white">Login Instead</a>
+        </div>
+        <div class="py-10 px-20 bg-zinc-800 border-2 border-zinc-700 rounded-lg">
+            <form class="text-white" action="/register" method="post">
+                <h1 class="text-5xl text-emerald-200 text-center">CREATE USER</h1>
+                <h4 class="text-xs text-emerald-300 text-center">Enter User Details to Register User.</h4>
+                <div class="flex flex-col gap-4 items-center justify-center mt-10">
+                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="text" placeholder="Enter the Name" required name="name">
+                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="text" placeholder="Enter the Username" required name="username">
+                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="email" placeholder="Enter the Email" required name="email">
+                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="password" placeholder="Enter the Password" required name="password">
+                    <div id="flash-message" class="text-red-500 text-sm tracking-tighter"><%= message %></div>
+                    <input class="rounded-lg cursor-pointer text-xl py-3 px-5 bg-blue-500 mt-6" type="submit" value="Register User">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="/javascripts/flashMessage.js"></script>
+</body>
+</html>
