@@ -70,25 +70,75 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function animateNewPost(postElement) {
         gsap.set(postElement, { scale: 0.3, opacity: 0, y: -100 });
-        gsap.to(postElement, { 
-            scale: 1, 
-            opacity: 1, 
+        gsap.to(postElement, {
+            scale: 1,
+            opacity: 1,
             y: 0,
-            duration: 0.6,
+            duration: 0.8,
             ease: "elastic.out(0.25, 1.25)",
+            delay: 0.32
         });
     }
 
-    function checkForNewPosts() {
+    function showPosts() {
         const posts = document.querySelectorAll(".post.hidden");
 
         posts.forEach(post => {
             post.classList.remove("hidden");
+            // if (window.location.search.includes('panim=true')) {
             animateNewPost(post);
+            // } else {
+            //     gsap.set(post, { scale: 1, opacity: 1, y: 0 });
+            // }
         });
     }
 
-    setTimeout(checkForNewPosts, 300);
+    setTimeout(showPosts, 0);
+
+    // function gsapHeart(btn) {
+    //     const heartIcon = btn.querySelector('.Heart_Icon');
+    //     gsap.fromTo(
+    //         heartIcon,
+    //         { scale: 0.2, opacity: 0, y: 6 },
+    //         {
+    //             scale: 1,
+    //             opacity: 1,
+    //             y: 0,
+    //             duration: 0.45,
+    //             ease: "elastic.out(0.25, 1.25)",
+    //         }
+    //     );
+    // }
+
+    // function animeH(button) {
+    //     const likeForm = button.closest(".like-form");
+    
+    //     likeForm.addEventListener("submit", function (e) {
+    //         e.preventDefault(); // Prevent default form submission
+    
+    //         fetch(likeForm.action, {
+    //             method: likeForm.method,
+    //             body: new FormData(likeForm),
+    //         })
+    //         .then(response => response) // Wait for backend response
+    //         .then(data => {
+    //             // Run animation only after receiving backend response
+    //             gsap.fromTo(
+    //                 button.querySelector('.Heart_Icon'),
+    //                 { scale: 0.2, opacity: 0, y: 6 },
+    //                 {
+    //                     scale: 1,
+    //                     opacity: 1,
+    //                     y: 0,
+    //                     duration: 0.8,
+    //                     ease: "elastic.out(0.25, 1.25)",
+    //                     oncompl
+    //                 }
+    //             );
+    //         })
+    //         .catch(error => console.error("Error:", error));
+    //     }, { once: true }); // Ensures event listener runs only once per click
+    // }
 
     function openConfirmModal() {
         const modal = document.getElementById("ConfirmModal");
@@ -104,7 +154,7 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "elastic.out(0.25, 1.75)"
         });
     }
-    
+
     function closeConfirmModal() {
         gsap.to(".confirm-modal-content", {
             scale: 0,
@@ -133,7 +183,8 @@ document.addEventListener("DOMContentLoaded", () => {
         closeConfirmModal();
     });
 
-window.deletePost = deletePost;
-window.openEditModal = openEditModal;
-window.openConfirmModal = openConfirmModal;
+    window.deletePost = deletePost;
+    window.openEditModal = openEditModal;
+    window.openConfirmModal = openConfirmModal;
+    // window.animeH = animeH;
 });

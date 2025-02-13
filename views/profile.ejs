@@ -85,7 +85,7 @@
         <div class="Posts py-5 px-16 flex flex-wrap gap-3">
             <% if(user.posts.length > 0 ) { %>
                 <% user.posts.reverse().forEach(function(post){ %>
-                    <div class="post p-4 bg-zinc-800 border-2 border-zinc-700 max-w-[27vw] min-w-[17vw] relative rounded-lg hidden">
+                    <div data-id="<%= post._id %>" class="post p-4 bg-zinc-800 border-2 border-zinc-700 max-w-[27vw] min-w-[17vw] relative rounded-lg hidden">
                         <h1 class="text-blue-500 text-md tracking-tight mb-3">@<%= user.username %></h1>
                         <form action="/delete/<%= post._id %>?redirect=profile" method="post" onsubmit="event.preventDefault(); deletePost(this)" >
                             <button type="submit" class="ri-close-line text-red-500 text-xl bg-white rounded-full px-[5px] py-[1px] cursor-pointer <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %> absolute top-2 right-2"></button>
@@ -93,11 +93,13 @@
                         <p class="text-sm text-wrap text-zinc-100"><%= post.content %></p>
                         <div class="flex items-center justify-between mt-5">
                             <form action="/like/<%= post._id %>?redirect=profile" method="post" class="like-form"> 
-                                <button id="like-btn" type="submit" class="select-none flex items-center justify-center gap-[2px] text-xl text-white cursor-pointer">
+                                <button id="like-btn" type="submit" class="select-none flex items-center justify-center gap-[2px] cursor-pointer">
                                     <i
-                                        class="<%= post.likes.indexOf(user._id) === -1 ? 'ri-heart-line' : 'ri-heart-fill' %> text-2xl text-red-500">
+                                        class="<%= post.likes.indexOf(user._id) === -1 ? 'ri-heart-line' : 'ri-heart-fill' %> text-2xl text-red-500 Heart_Icon">
                                     </i>
-                                    <%= post.likes.length %>
+                                    <span class="text-xl text-white">
+                                        <%= post.likes.length %>
+                                    </span>
                                 </button>
                             </form>
                             <button class="text-sm text-zinc-200 bg-blue-500 px-4 cursor-pointer py-1 rounded-sm <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %>" onclick="openEditModal(`<%= post.content %>`)">EDIT</button>
