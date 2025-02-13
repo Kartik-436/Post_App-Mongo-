@@ -1,10 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
-    function openEditModal(originalContent) {
+    function openEditModal(originalContent, postId) {
         const modal = document.getElementById("editModal");
         modal.classList.remove("hidden");
 
         document.getElementById("originalContent").value = originalContent;
         document.getElementById("editcontent").value = originalContent;
+        document.getElementById("PostId").value = postId;
 
         gsap.set(".modal-content", { scale: 0, opacity: 0, y: 500 });
 
@@ -82,63 +83,110 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showPosts() {
         const posts = document.querySelectorAll(".post.hidden");
+        const postId = localStorage.getItem("animateEditedPost");
 
-        posts.forEach(post => {
-            post.classList.remove("hidden");
-            // if (window.location.search.includes('panim=true')) {
-            animateNewPost(post);
-            // } else {
-            //     gsap.set(post, { scale: 1, opacity: 1, y: 0 });
-            // }
-        });
+        if (postId) {
+            const pst = document.querySelector(`.post[data-id="${postId}"]`);
+
+            if (pst) {
+                posts.forEach(post => {
+                    post.classList.remove("hidden");
+                    pst.classList.add("hidden");
+                    if (!(window.location.search.includes('?lanim:true'))) {
+                        animateNewPost(post);
+                    }
+                });
+            }
+        }
+        else {
+            posts.forEach(post => {
+                post.classList.remove("hidden");
+                if (!(window.location.search.includes('?lanim:true'))) {
+                    animateNewPost(post);
+                } else {
+                    gsap.set(post, { scale: 1, opacity: 1, y: 0 });
+                }
+            });    
+        }
+
+        const url = new URL(window.location);
+        url.searchParams.delete('lanim:true');
+        window.history.replaceState({}, document.title, url);
     }
 
-    setTimeout(showPosts, 0);
+    setTimeout(showPosts, 1);
 
-    // function gsapHeart(btn) {
-    //     const heartIcon = btn.querySelector('.Heart_Icon');
-    //     gsap.fromTo(
-    //         heartIcon,
-    //         { scale: 0.2, opacity: 0, y: 6 },
-    //         {
-    //             scale: 1,
-    //             opacity: 1,
-    //             y: 0,
-    //             duration: 0.45,
-    //             ease: "elastic.out(0.25, 1.25)",
-    //         }
-    //     );
-    // }
+    function gsapHeart(btn) {
+        
+        const likeF = btn.closest(".like-form");
 
-    // function animeH(button) {
-    //     const likeForm = button.closest(".like-form");
-    
-    //     likeForm.addEventListener("submit", function (e) {
-    //         e.preventDefault(); // Prevent default form submission
-    
-    //         fetch(likeForm.action, {
-    //             method: likeForm.method,
-    //             body: new FormData(likeForm),
-    //         })
-    //         .then(response => response) // Wait for backend response
-    //         .then(data => {
-    //             // Run animation only after receiving backend response
-    //             gsap.fromTo(
-    //                 button.querySelector('.Heart_Icon'),
-    //                 { scale: 0.2, opacity: 0, y: 6 },
-    //                 {
-    //                     scale: 1,
-    //                     opacity: 1,
-    //                     y: 0,
-    //                     duration: 0.8,
-    //                     ease: "elastic.out(0.25, 1.25)",
-    //                     oncompl
-    //                 }
-    //             );
-    //         })
-    //         .catch(error => console.error("Error:", error));
-    //     }, { once: true }); // Ensures event listener runs only once per click
-    // }
+        if (!likeF) return;
+
+        localStorage.setItem("animateHeart", btn.dataset.id || "true");
+
+        likeF.submit();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const postId = localStorage.getItem("animateHeart");
+
+        if (postId) {
+            const heartIcon = document.querySelector(`.Heart_Icon[data-id="${postId}"]`);
+
+            if (heartIcon) {
+                let tl = gsap.timeline();
+                tl.fromTo(
+                    heartIcon,
+                    { scale: 0.2, opacity: 0, y: 6 },
+                    {
+                        scale: 1,
+                        opacity: 1,
+                        y: 0,
+                        duration: 0.55,
+                        ease: "elastic.out(0.25, 1.25)",
+                        delay: 0.066,
+                    }
+                );
+            }
+            localStorage.removeItem("animateHeart");
+        }
+    });
+
+    function editAnimation(btn) {
+        const editF = btn.closest("#editForm");
+        let inp = document.getElementById("PostId")
+
+        if (!editF) return;
+
+        localStorage.setItem("animateEditedPost", inp.value || "true");
+
+        editF.submit();
+    }
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const postId = localStorage.getItem("animateEditedPost");
+
+        if (postId) {
+            const post = document.querySelector(`.post[data-id="${postId}"]`);
+
+            if (post) {
+                let tl = gsap.timeline();
+
+                tl.fromTo(
+                    post,
+                    { scale: 0.3, opacity: 0, y: -100 },
+                    {
+                        scale: 1,
+                        opacity: 1,
+                        y: 0,
+                        duration: 1.2,
+                        ease: "elastic.out(0.25, 1.25)",
+                    }
+                );
+            }
+            localStorage.removeItem("animateEditedPost");
+        }
+    });
 
     function openConfirmModal() {
         const modal = document.getElementById("ConfirmModal");
@@ -186,5 +234,6 @@ document.addEventListener("DOMContentLoaded", () => {
     window.deletePost = deletePost;
     window.openEditModal = openEditModal;
     window.openConfirmModal = openConfirmModal;
-    // window.animeH = animeH;
+    window.gsapHeart = gsapHeart;
+    window.editAnimation = editAnimation;
 });

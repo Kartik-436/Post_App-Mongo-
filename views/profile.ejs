@@ -17,9 +17,10 @@
                 <h2 class="text-white text-2xl mb-6">Edit Post</h2>
                 <form id="editForm" method="post" action="/edit?redirect=profile">
                     <input type="hidden" id="originalContent" name="originalContent">
+                    <input type="hidden" id="PostId" name="PostId">
                     <textarea id="editcontent" class="block w-full px-4 py-2 mb-3 text-lg rounded bg-zinc-800 text-white outline-none resize-none max-h-full min-h-[35vh]" name="newContent" placeholder="Enter new Content"></textarea>
                     <div class="flex justify-between mt-20">
-                        <button type="submit" class="bg-blue-600 px-5 py-2 rounded text-white cursor-pointer">Save</button>
+                        <button onclick="editAnimation(this)" type="submit" class="bg-blue-600 px-5 py-2 rounded text-white cursor-pointer">Save</button>
                         <button type="button" id="closeModal" class="bg-red-600 px-5 py-2 rounded text-white cursor-pointer">Cancel</button>
                     </div>
                 </form>
@@ -93,8 +94,8 @@
                         <p class="text-sm text-wrap text-zinc-100"><%= post.content %></p>
                         <div class="flex items-center justify-between mt-5">
                             <form action="/like/<%= post._id %>?redirect=profile" method="post" class="like-form"> 
-                                <button id="like-btn" type="submit" class="select-none flex items-center justify-center gap-[2px] cursor-pointer">
-                                    <i
+                                <button data-id="<%= post._id %>" onclick="gsapHeart(this)" id="like-btn" type="submit" class="select-none flex items-center justify-center gap-[2px] cursor-pointer">
+                                    <i data-id="<%= post._id %>"
                                         class="<%= post.likes.indexOf(user._id) === -1 ? 'ri-heart-line' : 'ri-heart-fill' %> text-2xl text-red-500 Heart_Icon">
                                     </i>
                                     <span class="text-xl text-white">
@@ -102,7 +103,7 @@
                                     </span>
                                 </button>
                             </form>
-                            <button class="text-sm text-zinc-200 bg-blue-500 px-4 cursor-pointer py-1 rounded-sm <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %>" onclick="openEditModal(`<%= post.content %>`)">EDIT</button>
+                            <button class="text-sm text-zinc-200 bg-blue-500 px-4 cursor-pointer py-1 rounded-sm <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %>" onclick="openEditModal(`<%= post.content %>`, `<%= post._id %>`)">EDIT</button>
                         </div>
                     </div>
                 <% }) %>

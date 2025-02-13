@@ -163,7 +163,7 @@ app.post('/like/:id', isLoggedIn, async (req, res) => {
     }
 
     await post.save();
-    res.redirect(`/${redirectPage}`);
+    res.redirect(`/${redirectPage}?lanim:true`);
 })
 
 app.post("/edit", isLoggedIn, async (req, res) => {
@@ -178,7 +178,7 @@ app.post("/edit", isLoggedIn, async (req, res) => {
         );
 
         res.cookie("green_message", "Post Edited Succesfully", { maxAge: 5000 });
-        return res.redirect(`/${redirectPage}`);
+        return res.redirect(`/${redirectPage}?lanim:true`);
     } catch (err) {
         res.cookie("profile_message", "Error Updating Post", { maxAge: 5000 });
         return res.redirect(`/${redirectPage}`);
