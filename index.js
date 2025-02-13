@@ -166,6 +166,25 @@ app.post('/like/:id', isLoggedIn, async (req, res) => {
     res.redirect(`/${redirectPage}`);
 })
 
+app.post("/edit", isLoggedIn, async (req, res) => {
+    let redirectPage = req.query.redirect || "profile";
+
+    try {
+        const { originalContent, newContent } = req.body;
+
+        await postModel.findOneAndUpdate(
+            { content: originalContent },
+            { content: newContent }
+        );
+
+        res.cookie("green_message", "Post Edited Succesfully", { maxAge: 5000 });
+        return res.redirect(`/${redirectPage}`);
+    } catch (err) {
+        res.cookie("profile_message", "Error Updating Post", { maxAge: 5000 });
+        return res.redirect(`/${redirectPage}`);
+    }
+});
+
 app.post('/delete/:id', isLoggedIn, async (req, res) => {
     let redirectPage = req.query.redirect || "profile";
 
@@ -197,25 +216,6 @@ app.post('/delete/:id', isLoggedIn, async (req, res) => {
     } catch (error) {
         console.error("Error deleting post:", error);
         res.cookie("profile_message", "An error occurred while deleting the post.", { maxAge: 5000 });
-        return res.redirect(`/${redirectPage}`);
-    }
-});
-
-app.post("/edit", isLoggedIn, async (req, res) => {
-    let redirectPage = req.query.redirect || "profile";
-
-    try {
-        const { originalContent, newContent } = req.body;
-
-        await postModel.findOneAndUpdate(
-            { content: originalContent },
-            { content: newContent }
-        );
-
-        res.cookie("green_message", "Post Edited Succesfully", { maxAge: 5000 });
-        return res.redirect(`/${redirectPage}`);
-    } catch (err) {
-        res.cookie("profile_message", "Error Updating Post", { maxAge: 5000 });
         return res.redirect(`/${redirectPage}`);
     }
 });
