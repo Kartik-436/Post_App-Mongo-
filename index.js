@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const userModel = require("./models/user");
 const postModel = require("./models/post");
+const upload = require("./configs/multerConfig");
 
 const app = express();
 

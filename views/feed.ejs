@@ -7,6 +7,7 @@
     <title>Profile</title>
     <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 
 <body>
@@ -41,11 +42,11 @@
 
         <div class="flex items-center justify-between px-16 py-7">
             <div>
-                <span class="text-4xl font-bold uppercase text-white text-center"> Your Feed ❤️ </span>
+                <span class="text-4xl text-center gradient-underline"><span id="PBY" class="text-4xl font-bold uppercase text-center"> Your Feed</span> ❤️</span>
                 <i class="ri-arrow-right-line text-white text-3xl font-bold"></i>
             </div>
             <div class="flex items-center justify-center gap-5">
-                <a href="/profile" class="bg-emerald-500 px-5 py-2 cursor-pointer text-white mt-5">Go to Profile</a>
+                <a href="/profile" class="bg-emerald-500 px-5 py-2 font-bold rounded-lg border-[1px] border-white cursor-pointer text-white mt-5">Go to Profile</a>
             </div>
         </div>
 
@@ -57,10 +58,10 @@
                 <form action="/post?redirect=feed" method="post" class="mb-10" id="postBtn">
                     <div class="flex items-center gap-5 mt-3 ">
                         <textarea
-                            class="resize-none outline-none px-4 py-3 rounded-lg bg-transparent border-2 border-zinc-800 text-white min-h-20 min-w-[26vw]"
+                            class="resize-none outline-none px-4 py-3 rounded-lg bg-transparent border-2 border-zinc-700 text-white min-h-20 min-w-[26vw]"
                             name="content" placeholder="Enter whatever comes to your mind..."></textarea>
                         <input type="submit" value="Post"
-                            class="px-8 py-2 bg-blue-500 text-white rounded-lg text-xl cursor-pointer">
+                            class="px-8 py-2 bg-blue-500 text-white font-semibold border-[2px] border-zinc-500 rounded-lg text-xl cursor-pointer">
                     </div>
                 </form>
             </div>
@@ -70,6 +71,7 @@
 
         <div class="w-full flex items-center justify-between px-16 pr-22 mt-5">
             <div class="flex items-center gap-4 text-white text-3xl uppercase">All Posts <i class="ri-arrow-right-line text-white text-center text-2xl"></i></div>
+            <div onclick="window.location.reload()" class="cursor-pointer"><i class="ri-refresh-line text-3xl text-white"></i></div>
         </div>
         <div class="Posts py-8 px-16 flex flex-wrap gap-3">
             <% if(posts.length > 0 ) { %>

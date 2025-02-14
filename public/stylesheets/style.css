@@ -21,3 +21,12 @@ body {
     -webkit-text-fill-color: transparent;
     font-weight: 700;
 }
+
+.gradient-underline {
+    display: inline;
+    background-image: linear-gradient(to right, #ffb000, red);
+    background-size: 92% 2px;
+    background-repeat: no-repeat;
+    background-position: bottom;
+    text-decoration: none;
+}
