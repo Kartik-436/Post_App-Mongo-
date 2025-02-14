@@ -66,22 +66,26 @@
 
         <hr class="text-white">
 
-        <h2 class="text-white text-xl px-16 mt-5"> -> You can Create a Post</h2>
-        <form action="/post?redirect=profile" method="post" class="mb-10">
-            <div class="flex items-center gap-5">
-                <textarea
-                    class="resize-none outline-none px-4 py-2 rounded-lg bg-transparent border-2 border-zinc-800 text-white mt-3 min-h-40 min-w-[30vw] ml-13"
-                    name="content" placeholder="Enter whatever comes to your mind..."></textarea>
-                <input type="submit" value="Post"
-                    class="px-12 py-3 bg-blue-500 text-white rounded-lg text-xl cursor-pointer">
+        <div class="flex items-end justify-between px-16">
+            <div>
+                <h2 class="text-white text-xl mt-5"> -> You can Create a Post</h2>
+                <form action="/post?redirect=profile" method="post" class="mb-10" id="postBtn">
+                    <div class="flex items-center gap-5">
+                        <textarea
+                            class="resize-none outline-none px-4 py-2 rounded-lg bg-transparent border-2 border-zinc-800 text-white mt-3 min-h-40 min-w-[30vw]"
+                            name="content" placeholder="Enter whatever comes to your mind..."></textarea>
+                        <input type="submit" value="Post"
+                            class="px-12 py-3 bg-blue-500 text-white rounded-lg text-xl cursor-pointer">
+                    </div>
+                </form>
             </div>
-        </form>
+            <a href="/feed" class="bg-emerald-500 px-10 py-3 rounded-md cursor-pointer text-white text-xl mb-[-3.4vh] mr-11">Your Feed</a>
+        </div>
 
         <hr class="text-white">
 
         <div class="w-full flex items-center justify-between px-16 pr-22 mt-3">
             <h2 class="text-white text-xl">View Your Posts -> </h2>
-            <a href="/feed" class="bg-emerald-500 px-5 py-2 cursor-pointer text-white mt-5">Posts By Others</a>
         </div>
         <div class="Posts py-5 px-16 flex flex-wrap gap-3">
             <% if(user.posts.length > 0 ) { %>
