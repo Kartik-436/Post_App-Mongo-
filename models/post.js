@@ -17,6 +17,11 @@ const postSchema = mongoose.Schema({
     }],
 
     content: String,
+
+    postPic: {
+        type: String,
+        default: "postpicdef.jpg"
+    }
 })
 
 module.exports = mongoose.model("post", postSchema);

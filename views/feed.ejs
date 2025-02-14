@@ -13,92 +13,147 @@
 <body>
     <div class="w-full min-h-screen bg-zinc-900">
 
-        <div id="editModal" class="fixed top-0 left-0 w-full z-50 h-full flex items-center justify-center backdrop-blur-md hidden">
+        <div id="editModal"
+            class="fixed top-0 left-0 w-full z-50 h-full flex items-center justify-center backdrop-blur-md hidden">
             <div class="modal-content bg-[#121212] p-6 rounded-lg w-96 max-w-full mx-4 sm:mx-0">
-                <h2 class="text-white text-2xl mb-6">Edit Post</h2>
+                <h2 class="text-white text-2xl mb-6">
+                    Edit Post <i class="ri-arrow-right-line text-white text-xl"></i>
+                </h2>
                 <form id="editForm" method="post" action="/edit?redirect=feed">
-                    <input type="hidden" id="originalContent" name="originalContent">
-                    <input type="hidden" id="PostId" name="PostId">
-                    <textarea id="editcontent" class="block w-full px-4 py-2 mb-3 text-lg rounded bg-zinc-800 text-white outline-none resize-none max-h-full min-h-[35vh]" name="newContent" placeholder="Enter new Content"></textarea>
+                    <input type="hidden" id="originalContent" name="originalContent" />
+                    <input type="hidden" id="PostId" name="PostId" />
+                    <input
+                        class="outline-none px-4 py-3 rounded-lg bg-white border-2 border-black text-neutral-800 font-semibold min-h-10 min-w-full cursor-pointer mb-3"
+                        type="file" name="postPic" id="PPic" accept="image/*" />
+                    <textarea required id="editcontent"
+                        class="block w-full px-4 py-2 mb-3 text-lg rounded bg-zinc-800 text-white outline-none resize-none max-h-full min-h-[30vh]"
+                        name="newContent" placeholder="Enter new Content"></textarea>
                     <div class="flex justify-between mt-20">
-                        <button onclick="editAnimation(this)" type="submit" class="bg-blue-600 px-5 py-2 rounded text-white cursor-pointer">Save</button>
-                        <button type="button" id="closeModal" class="bg-red-600 px-5 py-2 rounded text-white cursor-pointer">Cancel</button>
+                        <button onclick="editAnimation(this)" type="submit"
+                            class="bg-blue-600 px-5 py-2 rounded text-white cursor-pointer">
+                            Save
+                        </button>
+                        <button type="button" id="closeModal"
+                            class="bg-red-600 px-5 py-2 rounded text-white cursor-pointer">
+                            Cancel
+                        </button>
                     </div>
                 </form>
             </div>
         </div>
 
-        <% if (RedMessage && RedMessage.trim().length > 0) { %>
-            <div class="fixed flash-message bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-red-500 border-2 border-white rounded-lg flex items-center px-5 hidden">
-                <h1 class="text-white text-md font-bold"><%= RedMessage %></h1>
+        <% if (RedMessage && RedMessage.trim().length> 0) { %>
+            <div
+                class="fixed flash-message bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-red-500 border-2 border-white rounded-lg flex items-center px-5 hidden">
+                <h1 class="text-white text-md font-bold">
+                    <%= RedMessage %>
+                </h1>
             </div>
-        <% } %>
-
-        <% if (GreenMessage && GreenMessage.trim().length > 0) { %>
-            <div class="fixed flash-message bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-emerald-500 border-2 border-white rounded-lg flex items-center px-5 hidden">
-                <h1 class="text-white text-md font-bold"><%= GreenMessage %></h1>
-            </div>
-        <% } %>
-
-        <div class="flex items-center justify-between px-16 py-7">
-            <div>
-                <span class="text-4xl text-center gradient-underline"><span id="PBY" class="text-4xl font-bold uppercase text-center"> Your Feed</span> ❤️</span>
-                <i class="ri-arrow-right-line text-white text-3xl font-bold"></i>
-            </div>
-            <div class="flex items-center justify-center gap-5">
-                <a href="/profile" class="bg-emerald-500 px-5 py-2 font-bold rounded-lg border-[1px] border-white cursor-pointer text-white mt-5">Go to Profile</a>
-            </div>
-        </div>
-
-        <hr class="text-white">
-
-        <div>
-            <div class="px-16">
-                <h2 class="text-white flex items-center gap-3 text-lg mt-5"><i class="ri-arrow-right-line text-white text-xl"></i>You can Create a Post</h2>
-                <form action="/post?redirect=feed" method="post" class="mb-10" id="postBtn">
-                    <div class="flex items-center gap-5 mt-3 ">
-                        <textarea
-                            class="resize-none outline-none px-4 py-3 rounded-lg bg-transparent border-2 border-zinc-700 text-white min-h-20 min-w-[26vw]"
-                            name="content" placeholder="Enter whatever comes to your mind..."></textarea>
-                        <input type="submit" value="Post"
-                            class="px-8 py-2 bg-blue-500 text-white font-semibold border-[2px] border-zinc-500 rounded-lg text-xl cursor-pointer">
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <hr class="text-white">
-
-        <div class="w-full flex items-center justify-between px-16 pr-22 mt-5">
-            <div class="flex items-center gap-4 text-white text-3xl uppercase">All Posts <i class="ri-arrow-right-line text-white text-center text-2xl"></i></div>
-            <div onclick="window.location.reload()" class="cursor-pointer"><i class="ri-refresh-line text-3xl text-white"></i></div>
-        </div>
-        <div class="Posts py-8 px-16 flex flex-wrap gap-3">
-            <% if(posts.length > 0 ) { %>
-                <% posts.reverse().forEach(function(post){ %>
-                    <div data-id="<%= post._id %>" class="post p-4 bg-zinc-800 border-2 border-zinc-700 max-w-[27vw] min-w-[17vw] relative rounded-lg hidden">
-                        <h1 class="text-blue-500 text-md tracking-tight mb-3">@<%= post.user.username %></h1>
-                        <form action="/delete/<%= post._id %>?redirect=feed" method="post" onsubmit="event.preventDefault(); deletePost(this)" >
-                            <button type="submit" class="ri-close-line text-red-500 text-xl bg-white rounded-full px-[5px] py-[1px] cursor-pointer <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %> absolute top-2 right-2"></button>
-                        </form>
-                        <p class="text-sm text-wrap text-zinc-100"><%= post.content %></p>
-                        <div class="flex items-center justify-between mt-5">
-                            <form action="/like/<%= post._id %>?redirect=feed" method="post" class="like-form">
-                                <button data-id="<%= post._id %>" onclick="gsapHeart(this)" id="like-btn" type="submit" class="select-none flex items-center justify-center gap-[2px] cursor-pointer">
-                                    <i data-id="<%= post._id %>"
-                                        class="<%= post.likes.indexOf(user._id) === -1 ? 'ri-heart-line' : 'ri-heart-fill' %> text-2xl text-red-500 Heart_Icon">
-                                    </i>
-                                    <span class="text-xl text-white">
-                                        <%= post.likes.length %>
-                                    </span>
-                                </button>
-                            </form>
-                            <button class="text-sm text-zinc-200 bg-blue-500 px-4 cursor-pointer py-1 rounded-sm <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %>" onclick="openEditModal(`<%= post.content %>`, `<%= post._id %>`)">EDIT</button>
-                        </div>
-                    </div>
-                <% }) %>
             <% } %>
-        </div>
+
+                <% if (GreenMessage && GreenMessage.trim().length> 0) { %>
+                    <div
+                        class="fixed flash-message bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-emerald-500 border-2 border-white rounded-lg flex items-center px-5 hidden">
+                        <h1 class="text-white text-md font-bold">
+                            <%= GreenMessage %>
+                        </h1>
+                    </div>
+                    <% } %>
+
+                        <div class="flex items-center justify-between px-16 py-7">
+                            <div>
+                                <span class="text-4xl text-center gradient-underline"><span id="PBY"
+                                        class="text-4xl font-bold uppercase text-center"> Your Feed</span> ❤️</span>
+                                <i class="ri-arrow-right-line text-white text-3xl font-bold"></i>
+                            </div>
+                            <div class="flex items-center justify-center gap-5">
+                                <a href="/profile"
+                                    class="bg-emerald-500 px-5 py-2 font-bold rounded-lg border-[1px] border-white cursor-pointer text-white mt-5">Go
+                                    to Profile</a>
+                            </div>
+                        </div>
+
+                        <hr class="text-white">
+
+                        <div>
+                            <div class="px-16">
+                                <h2 class="text-white flex items-center gap-3 text-lg mt-5"><i
+                                        class="ri-arrow-right-line text-white text-xl"></i>You can Create a Post</h2>
+                                <form action="/post?redirect=feed" method="post" class="mb-10" id="postBtn">
+                                    <div class="flex items-center gap-5 mt-3">
+                                        <div class="flex flex-col items-center justify-center gap-2">
+                                            <input
+                                                class="outline-none px-4 py-3 rounded-lg bg-white border-2 border-black text-neutral-800 font-semibold min-h-10 min-w-[26vw] cursor-pointer"
+                                                type="file" name="postPic" id="PPic" accept="image/*" />
+                                            <textarea required
+                                                class="resize-none outline-none px-4 py-3 rounded-lg bg-transparent border-2 border-zinc-700 text-white min-h-20 min-w-[26vw]"
+                                                name="content"
+                                                placeholder="Enter whatever comes to your mind..."></textarea>
+                                        </div>
+
+                                        <input type="submit" value="Post"
+                                            class="px-8 py-2 bg-blue-500 text-white font-semibold border-[2px] border-zinc-500 rounded-lg text-xl cursor-pointer" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <hr class="text-white">
+
+                        <div class="w-full flex items-center justify-between px-16 pr-22 mt-5">
+                            <div class="flex items-center gap-4 text-white text-3xl uppercase">All Posts <i
+                                    class="ri-arrow-right-line text-white text-center text-2xl"></i></div>
+                            <div onclick="window.location.reload()" class="cursor-pointer"><i
+                                    class="ri-refresh-line text-3xl text-white"></i></div>
+                        </div>
+                        <div class="Posts py-8 px-16 flex flex-wrap gap-3">
+                            <% if(posts.length> 0 ) { %>
+                                <% posts.reverse().forEach(function(post){ %>
+                                    <div data-id="<%= post._id %>"
+                                        class="post p-4 bg-zinc-800 border-2 border-zinc-700 max-w-[20vw] min-w-[17vw] relative rounded-lg hidden">
+                                        <div>
+                                            <img src="/images/uploads/<%= post.postPic %>"
+                                                class="rounded-lg w-full h-[22vh] mb-4 object-cover border-2 border-black">
+                                        </div>
+                                        <h1 class="text-blue-500 text-md tracking-tight">@<%= user.username %>
+                                        </h1>
+                                        <p class="text-sm text-wrap text-zinc-100">
+                                            <%= post.content %>
+                                        </p>
+                                        <div class="flex items-center justify-between mt-7">
+                                            <form action="/like/<%= post._id %>?redirect=feed" method="post"
+                                                class="like-form">
+                                                <button data-id="<%= post._id %>" onclick="gsapHeart(this)"
+                                                    id="like-btn" type="submit"
+                                                    class="select-none flex items-center justify-center gap-[2px] cursor-pointer">
+                                                    <i data-id="<%= post._id %>"
+                                                        class="<%= post.likes.indexOf(user._id) === -1 ? 'ri-heart-line' : 'ri-heart-fill' %> text-2xl text-red-500 Heart_Icon">
+                                                    </i>
+                                                    <span class="text-xl text-white">
+                                                        <%= post.likes.length %>
+                                                    </span>
+                                                </button>
+                                            </form>
+
+                                            <div class="flex items-center justify-center gap-3">
+                                                <form action="/delete/<%= post._id %>?redirect=feed" method="post"
+                                                    onsubmit="event.preventDefault(); deletePost(this)">
+                                                    <button type="submit"
+                                                        class="text-white text-sm bg-red-500 rounded-md px-3 py-[5px] cursor-pointer <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %>">
+                                                        Delete
+                                                    </button>
+                                                </form>
+                                                <button
+                                                    class="text-sm text-zinc-200 bg-blue-500 px-4 cursor-pointer py-1 rounded-sm <%= String(post.user?._id) === String(user._id) ? 'block' : 'hidden' %>"
+                                                    onclick="openEditModal(`<%= post.content %>`, `<%= post._id %>`)">
+                                                    EDIT
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }) %>
+                                <% } %>
+                        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>

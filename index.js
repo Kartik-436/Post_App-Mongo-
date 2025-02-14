@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 const userModel = require("./models/user");
 const postModel = require("./models/post");
 const upload = require("./configs/multerConfig");
+const { registerValidator, checkValidation } = require("./configs/customValidator");
+require("dotenv").config();
 
 const app = express();
 
@@ -30,7 +32,7 @@ app.get('/register', (req, res) => {
     res.render('register', { message });
 })
 
-app.post("/register", async (req, res) => {
+app.post("/register", registerValidator, checkValidation, async (req, res) => {
     try {
         let { name, username, email, password } = req.body;
 
@@ -57,9 +59,9 @@ app.post("/register", async (req, res) => {
             password: hashedPassword
         });
 
-        let token = jwt.sign({ email: email, username: user._id }, "SecretKey");
+        let token = jwt.sign({ email: email, username: user._id }, process.env.VER_KEY);
         res.cookie("token", token);
-        res.cookie("green_message", "User Registered Succesfully", { maxAge: 5000 });
+        res.cookie("green_message", "User Registered Successfully", { maxAge: 5000 });
 
         res.redirect("/profile");
     }
@@ -93,7 +95,7 @@ app.post("/login", async (req, res) => {
             return res.redirect("/login");
         }
 
-        let token = jwt.sign({ email: email, username: user._id }, "SecretKey");
+        let token = jwt.sign({ email: email, username: user._id }, process.env.VER_KEY);
         res.cookie("token", token);
         res.cookie("green_message", "User Logged In Succesfully", { maxAge: 5000 });
 
@@ -133,14 +135,15 @@ app.get('/feed', isLoggedIn, async (req, res) => {
     res.render('feed', { user, RedMessage, GreenMessage, posts });
 })
 
-app.post("/post", isLoggedIn, async (req, res) => {
+app.post("/post", upload.single("postPic"), isLoggedIn, async (req, res) => {
     let user = await userModel.findOne({ email: req.user.email });
     let { content } = req.body;
     let redirectPage = req.query.redirect || "profile";
 
     let post = await postModel.create({
         user: user._id,
-        content
+        content,
+        postPic: req.file ? req.file.filename : "postpicdef.jpg"
     })
 
     user.posts.push(post._id);
@@ -167,15 +170,19 @@ app.post('/like/:id', isLoggedIn, async (req, res) => {
     res.redirect(`/${redirectPage}?lanim:true`);
 })
 
-app.post("/edit", isLoggedIn, async (req, res) => {
+app.post("/edit", upload.single("postPic"), isLoggedIn, async (req, res) => {
     let redirectPage = req.query.redirect || "profile";
 
     try {
         const { originalContent, newContent } = req.body;
+        let post = await postModel.findOne({ content: originalContent }).populate("user");
 
         await postModel.findOneAndUpdate(
             { content: originalContent },
-            { content: newContent }
+            { 
+                content: newContent,
+                postPic: req.file ? req.file.filename : post.postPic
+            }
         );
 
         res.cookie("green_message", "Post Edited Succesfully", { maxAge: 5000 });
@@ -248,7 +255,7 @@ async function isLoggedIn(req, res, next) {
     }
 
     try {
-        let data = jwt.verify(token, "SecretKey");
+        let data = jwt.verify(token, process.env.VER_KEY);
         req.user = data;
         next();
     } catch (err) {
@@ -265,7 +272,7 @@ function LogProfileIfCookiePresent(req, res, next) {
     }
 
     try {
-        let data = jwt.verify(token, "SecretKey");
+        let data = jwt.verify(token, process.env.VER_KEY);
         req.user = data;
         return res.redirect("/profile");
     } catch (err) {
@@ -274,4 +281,7 @@ function LogProfileIfCookiePresent(req, res, next) {
     }
 }
 
-app.listen(3000);
+app.listen(process.env.PORT || 5000, function() {
+    console.log(`Server is running on port ${process.env.PORT || 5000}`);
+    console.log("Press Ctrl + C to stop the server");
+});
