@@ -41,8 +41,8 @@
 
         <div class="flex items-center justify-between px-16 py-7">
             <div>
-                <span class="text-3xl text-white text-center">Hello, </span>
-                <span class="text-4xl font-bold text-white"><%= user.name %> 👋</span>
+                <span class="text-4xl font-bold uppercase text-white text-center"> Your Feed ❤️ </span>
+                <i class="ri-arrow-right-line text-white text-3xl font-bold"></i>
             </div>
             <div class="flex items-center justify-center gap-5">
                 <a href="/profile" class="bg-emerald-500 px-5 py-2 cursor-pointer text-white mt-5">Go to Profile</a>
@@ -52,15 +52,15 @@
         <hr class="text-white">
 
         <div>
-            <div>
-                <h2 class="text-white text-xl px-16 mt-5"> -> You can Create a Post</h2>
+            <div class="px-16">
+                <h2 class="text-white flex items-center gap-3 text-lg mt-5"><i class="ri-arrow-right-line text-white text-xl"></i>You can Create a Post</h2>
                 <form action="/post?redirect=feed" method="post" class="mb-10" id="postBtn">
-                    <div class="flex items-center gap-5">
+                    <div class="flex items-center gap-5 mt-3 ">
                         <textarea
-                            class="resize-none outline-none px-4 py-2 rounded-lg bg-transparent border-2 border-zinc-800 text-white mt-3 min-h-40 min-w-[30vw] ml-13"
+                            class="resize-none outline-none px-4 py-3 rounded-lg bg-transparent border-2 border-zinc-800 text-white min-h-20 min-w-[26vw]"
                             name="content" placeholder="Enter whatever comes to your mind..."></textarea>
                         <input type="submit" value="Post"
-                            class="px-12 py-3 bg-blue-500 text-white rounded-lg text-xl cursor-pointer">
+                            class="px-8 py-2 bg-blue-500 text-white rounded-lg text-xl cursor-pointer">
                     </div>
                 </form>
             </div>
@@ -68,10 +68,10 @@
 
         <hr class="text-white">
 
-        <div class="w-full flex items-center justify-between px-16 pr-22 mt-3">
-            <h2 class="text-white text-3xl">Your Feed -> </h2>
+        <div class="w-full flex items-center justify-between px-16 pr-22 mt-5">
+            <div class="flex items-center gap-4 text-white text-3xl uppercase">All Posts <i class="ri-arrow-right-line text-white text-center text-2xl"></i></div>
         </div>
-        <div class="Posts py-5 px-16 flex flex-wrap gap-3">
+        <div class="Posts py-8 px-16 flex flex-wrap gap-3">
             <% if(posts.length > 0 ) { %>
                 <% posts.reverse().forEach(function(post){ %>
                     <div data-id="<%= post._id %>" class="post p-4 bg-zinc-800 border-2 border-zinc-700 max-w-[27vw] min-w-[17vw] relative rounded-lg hidden">
