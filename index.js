@@ -140,10 +140,18 @@ app.post("/post", upload.single("postPic"), isLoggedIn, async (req, res) => {
     let { content } = req.body;
     let redirectPage = req.query.redirect || "profile";
 
+    if (!req.file) {
+        res.cookie("profile_message", "Error Posting", { maxAge: 5000 });
+        return res.redirect(`/${redirectPage}`); // Ensure function stops execution
+    }    
+
     let post = await postModel.create({
         user: user._id,
         content,
-        postPic: req.file ? req.file.filename : "postpicdef.jpg"
+        postPic: {
+            data: req.file.buffer,
+            contentType: req.file.mimetype,
+        }
     })
 
     user.posts.push(post._id);
@@ -177,21 +185,33 @@ app.post("/edit", upload.single("postPic"), isLoggedIn, async (req, res) => {
         const { originalContent, newContent } = req.body;
         let post = await postModel.findOne({ content: originalContent }).populate("user");
 
+        if (!post) {
+            res.cookie("profile_message", "Post Not Found", { maxAge: 5000 });
+            return res.redirect(`/${redirectPage}`);
+        }
+
+        // Build update object dynamically
+        let updateFields = { content: newContent };
+        if (req.file) {
+            updateFields.postPic = {
+                data: req.file.buffer,
+                contentType: req.file.mimetype,
+            };
+        }
+
         await postModel.findOneAndUpdate(
             { content: originalContent },
-            { 
-                content: newContent,
-                postPic: req.file ? req.file.filename : post.postPic
-            }
+            updateFields
         );
 
-        res.cookie("green_message", "Post Edited Succesfully", { maxAge: 5000 });
-        return res.redirect(`/${redirectPage}?lanim:true`);
+        res.cookie("green_message", "Post Edited Successfully", { maxAge: 5000 });
+        return res.redirect(`/${redirectPage}?lanim=true`);
     } catch (err) {
         res.cookie("profile_message", "Error Updating Post", { maxAge: 5000 });
         return res.redirect(`/${redirectPage}`);
     }
 });
+
 
 app.post('/delete/:id', isLoggedIn, async (req, res) => {
     let redirectPage = req.query.redirect || "profile";

@@ -19,8 +19,8 @@ const postSchema = mongoose.Schema({
     content: String,
 
     postPic: {
-        type: String,
-        default: "postpicdef.jpg"
+        data: Buffer,
+        contentType: String,
     }
 })
 
