@@ -8,26 +8,39 @@
 </head>
 <body>
     <div class="min-h-screen w-full bg-neutral-900 flex items-center justify-center">
-        <div class="absolute top-5 flex w-full items-center justify-between py-5 px-20">
-            <a href="/" class="px-4 py-2 bg-red-500 text-white">Back to Home</a>
-            <a href="/login" class="px-4 py-2 bg-blue-500 text-white">Login Instead</a>
+
+        <div class="h-screen w-screen fixed z-10 overflow-hidden bg-[#111]">
+            <div class="grid h-screen w-full grid-cols-[repeat(auto-fit,_minmax(50px,_1fr))] grid-rows-[repeat(auto-fit,_minmax(50px,_1fr))] md:grid-cols-[repeat(auto-fit,_minmax(100px,_1fr))] md:grid-rows-[repeat(auto-fit,_minmax(100px,_1fr))]">
+                <% for(let i = 0; i < 105; i++) { %>
+                    <div class="h-full w-full border-[1px] border-[#90909015] square"></div>
+                <% } %>
+            </div>
         </div>
-        <div class="py-10 px-20 bg-zinc-800 border-2 border-zinc-700 rounded-lg">
+
+        <div class="absolute z-50 top-5 flex w-full items-center justify-between py-5 px-20">
+            <a href="/" class="px-5 py-3 rounded-md font-bold text-xl bg-red-500 text-white">Back to Home</a>
+            <a href="/login" class="px-5 text-xl py-3 font-bold rounded-md bg-emerald-500 text-white">Login Instead</a>
+        </div>
+        <div class="py-10 z-50 px-15 backdrop-blur-md bg-[#0e0e0e] border-2 border-zinc-600 rounded-lg">
             <form class="text-white" action="/register" method="post">
-                <h1 class="text-5xl text-emerald-200 text-center">CREATE USER</h1>
+                <h1 class="text-6xl text-emerald-200 text-center">CREATE USER</h1>
                 <h4 class="text-xs text-emerald-300 text-center">Enter User Details to Register User.</h4>
-                <div class="flex flex-col gap-4 items-center justify-center mt-10">
-                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="text" placeholder="Enter the Name" required name="name">
-                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="text" placeholder="Enter the Username" required name="username">
-                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="email" placeholder="Enter the Email" required name="email">
-                    <input class="w-full rounded-lg inline-block py-2 px-4 bg-transparent outline-none border-2 border-zinc-700" type="password" placeholder="Enter the Password" required name="password">
+                <div class="flex flex-col gap-4 items-center min-w-[26vw] min-h-[56vh] justify-center mt-10">
+                    <input class="w-full rounded-lg inline-block py-4 px-5 bg-transparent outline-none border-2 border-zinc-700" type="text" placeholder="Enter the Name" required name="name">
+                    <input class="w-full rounded-lg inline-block py-4 px-5 bg-transparent outline-none border-2 border-zinc-700" type="text" placeholder="Enter the Username" required name="username">
+                    <input class="w-full rounded-lg inline-block py-4 px-5 bg-transparent outline-none border-2 border-zinc-700" type="email" placeholder="Enter the Email" required name="email">
+                    <input class="w-full rounded-lg inline-block py-4 px-5 bg-transparent outline-none border-2 border-zinc-700" type="password" placeholder="Enter the Password" required name="password">
+                    <p id="PassWarn" class="text-xs tracking-tight text-red-400 mt-[-2vh] hidden">Atleast 1 uppercase, 1 lowercase, 1 number and 1 special character in password</p>
                     <div id="flash-message" class="text-red-500 text-sm tracking-tighter"><%= message %></div>
-                    <input class="rounded-lg cursor-pointer text-xl py-3 px-5 bg-blue-500 mt-6" type="submit" value="Register User">
+                    <input class="rounded-lg cursor-pointer text-xl py-3 px-5 bg-blue-500 font-bold border-2 border-neutral-300 mt-3" type="submit" value="Register User">
                 </div>
             </form>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="/javascripts/log-reg.js"></script>
+    <script src="/javascripts/bgAnimation.js"></script>
     <script src="/javascripts/flashMessage.js"></script>
 </body>
 </html>

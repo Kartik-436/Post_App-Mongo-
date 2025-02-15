@@ -8,30 +8,40 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
 <body>
-    <div class="min-h-screen w-full bg-neutral-900 flex items-center justify-center">
+    <div class="min-h-screen w-full bg-neutral-900 z-0 flex items-center justify-center">
+
+        <div class="h-screen w-screen fixed z-10 overflow-hidden bg-[#111]">
+            <div class="grid h-screen w-full grid-cols-[repeat(auto-fit,_minmax(50px,_1fr))] grid-rows-[repeat(auto-fit,_minmax(50px,_1fr))] md:grid-cols-[repeat(auto-fit,_minmax(100px,_1fr))] md:grid-rows-[repeat(auto-fit,_minmax(100px,_1fr))]">
+                <% for(let i = 0; i < 105; i++) { %>
+                    <div class="h-full w-full border-[1px] border-[#90909015] square"></div>
+                <% } %>
+            </div>
+        </div>
 
         <% if (RedMessage && RedMessage.trim().length > 0) { %>
-            <div id="flash-message" class="fixed bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-red-500 border-2 border-white rounded-lg flex items-center px-5">
+            <div id="flash-message" class="fixed bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-red-500 border-2 border-white rounded-lg z-50 flex items-center px-5">
                 <h1 class="text-white text-md font-bold"><%= RedMessage %></h1>
             </div>
         <% } %>
 
         <% if (GreenMessage && GreenMessage.trim().length > 0) { %>
-            <div id="flash-message" class="fixed bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-emerald-500 border-2 border-white rounded-lg flex items-center px-5">
+            <div id="flash-message" class="fixed bottom-8 right-8 min-h-10 max-w-[35vw] min-w-[25vw] bg-emerald-500 border-2 border-white rounded-lg z-50 flex items-center px-5">
                 <h1 class="text-white text-md font-bold"><%= GreenMessage %></h1>
             </div>
         <% } %>
 
-        <div class="text-white">
-            <h1 class="text-5xl tracking-tight">Welcome to My App</h1>
-            <h3 class="text-center mb-10 text-zinc-300">Please Register or Login to continue</h3>
-            <div class="flex w-full items-center justify-center gap-10">
+        <div class="text-white border-2 border-white p-10 backdrop-blur-md rounded-md z-50">
+            <h1 class="text-7xl tracking-tight">Welcome to My App</h1>
+            <h3 class="text-center text-xl mb-15 text-zinc-300">Please Register or Login to continue</h3>
+            <div class="flex w-full items-center justify-center gap-15">
                 <a class="text-xl px-4 py-2 bg-blue-500" href="/register">Register</a>
                 <a class="text-xl px-6 py-2 bg-emerald-500" href="/login">Login</a>
             </div>
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="/javascripts/bgAnimation.js"></script>
     <script src="/javascripts/flashMessage.js"></script>
 </body>
 </html>
