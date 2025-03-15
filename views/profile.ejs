@@ -13,7 +13,7 @@
 <body>
     <div class="w-full min-h-screen bg-zinc-900">
         <div id="editModal"
-            class="fixed top-0 left-0 w-full z-50 h-full flex items-center justify-center backdrop-blur-md hidden">
+            class="fixed top-0 left-0 w-full z-50 h-full md:flex items-center justify-center backdrop-blur-md hidden">
             <div class="modal-content bg-[#121212] p-6 rounded-lg w-96 max-w-full mx-4 sm:mx-0">
                 <h2 class="text-white text-2xl mb-6">
                     Edit Post <i class="ri-arrow-right-line text-white text-xl"></i>
@@ -42,7 +42,7 @@
         </div>
 
         <div id="ConfirmModal"
-            class="fixed top-0 left-0 w-full z-50 h-full flex items-center justify-center backdrop-blur-md hidden">
+            class="fixed top-0 left-0 w-full z-50 h-full md:flex items-center justify-center backdrop-blur-md hidden">
             <div
                 class="confirm-modal-content bg-[#121212] p-6 rounded-lg w-96 max-w-full mx-4 sm:mx-0 border-2 border-white">
                 <h2 class="text-red-500 text-4xl mb-8 text-center font-bold">
@@ -151,12 +151,12 @@
                                             <% if (post.postPic && post.postPic.data) { %>
                                                 <img src="data:<%= post.postPic.contentType %>;base64,<%= post.postPic.data.toString('base64') %>"
                                                     class="rounded-lg w-full h-[22vh] mb-4 object-cover border-2 border-black" />
-                                            <% } else { %>
-                                                <img src="/images/uploads/postpicdef.jpg"
-                                                    class="rounded-lg w-full h-[22vh] mb-4 object-cover border-2 border-black" />
-                                            <% } %>
+                                                <% } else { %>
+                                                    <img src="/images/uploads/postpicdef.jpg"
+                                                        class="rounded-lg w-full h-[22vh] mb-4 object-cover border-2 border-black" />
+                                                    <% } %>
                                         </div>
-                                        
+
                                         <h1 class="text-blue-500 text-md tracking-tight">
                                             @<%= user.username %>
                                         </h1>
