@@ -12,6 +12,7 @@ require("dotenv").config();
 const app = express();
 
 app.set('view engine', 'ejs');
+app.set("views", path.join(__dirname, "views")); // Ensure views directory is correct
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
@@ -143,7 +144,7 @@ app.post("/post", upload.single("postPic"), isLoggedIn, async (req, res) => {
     if (!req.file) {
         res.cookie("profile_message", "Error Posting", { maxAge: 5000 });
         return res.redirect(`/${redirectPage}`); // Ensure function stops execution
-    }    
+    }
 
     let post = await postModel.create({
         user: user._id,
@@ -301,7 +302,7 @@ function LogProfileIfCookiePresent(req, res, next) {
     }
 }
 
-app.listen(process.env.PORT || 5000, function() {
+app.listen(process.env.PORT || 5000, function () {
     console.log(`Server is running on port ${process.env.PORT || 5000}`);
     console.log("Press Ctrl + C to stop the server");
 });

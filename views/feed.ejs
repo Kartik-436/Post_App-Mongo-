@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
     <link rel="stylesheet" href="/stylesheets/style.css">
 </head>
@@ -115,10 +115,10 @@
                                             <% if (post.postPic && post.postPic.data) { %>
                                                 <img src="data:<%= post.postPic.contentType %>;base64,<%= post.postPic.data.toString('base64') %>"
                                                     class="rounded-lg w-full h-[22vh] mb-4 object-cover border-2 border-black" />
-                                            <% } else { %>
-                                                <img src="/images/uploads/postpicdef.jpg"
-                                                    class="rounded-lg w-full h-[22vh] mb-4 object-cover border-2 border-black" />
-                                            <% } %>
+                                                <% } else { %>
+                                                    <img src="/images/uploads/postpicdef.jpg"
+                                                        class="rounded-lg w-full h-[22vh] mb-4 object-cover border-2 border-black" />
+                                                    <% } %>
                                         </div>
                                         <h1 class="text-blue-500 text-md tracking-tight">@<%= post.user.username %>
                                         </h1>
@@ -157,7 +157,7 @@
                                         </div>
                                     </div>
                                     <% }) %>
-                                <% } %>
+                                        <% } %>
                         </div>
     </div>
 
