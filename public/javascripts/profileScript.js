@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else {
                     gsap.set(post, { scale: 1, opacity: 1, y: 0 });
                 }
-            });    
+            });
         }
 
         const url = new URL(window.location);
@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(showPosts, 1);
 
     function gsapHeart(btn) {
-        
+
         const likeF = btn.closest(".like-form");
 
         if (!likeF) return;
@@ -163,30 +163,28 @@ document.addEventListener("DOMContentLoaded", () => {
         editF.submit();
     }
 
-    window.addEventListener("DOMContentLoaded", () => {
-        const postId = localStorage.getItem("animateEditedPost");
+    const postId = localStorage.getItem("animateEditedPost");
 
-        if (postId) {
-            const post = document.querySelector(`.post[data-id="${postId}"]`);
+    if (postId) {
+        const post = document.querySelector(`.post[data-id="${postId}"]`);
 
-            if (post) {
-                let tl = gsap.timeline();
+        if (post) {
+            let tl = gsap.timeline();
 
-                tl.fromTo(
-                    post,
-                    { scale: 0.3, opacity: 0, y: -100 },
-                    {
-                        scale: 1,
-                        opacity: 1,
-                        y: 0,
-                        duration: 1.2,
-                        ease: "elastic.out(0.25, 1.25)",
-                    }
-                );
-            }
-            localStorage.removeItem("animateEditedPost");
+            tl.fromTo(
+                post,
+                { scale: 0.3, opacity: 0, y: -100 },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    y: 0,
+                    duration: 1.2,
+                    ease: "elastic.out(0.25, 1.25)",
+                }
+            );
         }
-    });
+        localStorage.removeItem("animateEditedPost");
+    }
 
     function openConfirmModal() {
         const modal = document.getElementById("ConfirmModal");
@@ -237,3 +235,10 @@ document.addEventListener("DOMContentLoaded", () => {
     window.gsapHeart = gsapHeart;
     window.editAnimation = editAnimation;
 });
+
+window.onload = function () {
+    console.log("Checking modal visibility...");
+    console.log("Edit Modal:", document.getElementById("editModal").classList.contains("hidden"));
+    console.log("Confirm Modal:", document.getElementById("ConfirmModal").classList.contains("hidden"));
+};
+
